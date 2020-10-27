@@ -1,0 +1,12 @@
+body {
+  margin: auto;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: antiquewhite;
+  width: 90vw;
+}
+
+.app-title {
+  text-align: center;
+  color: tomato;
+}
