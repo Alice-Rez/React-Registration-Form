@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { loggContext } from "./context";
 
 export default function Navigation() {
+  const context = useContext(loggContext);
   return (
     <nav className="navbar navbar-expand-lg ">
       <Link to="/home" className="navbar-brand">
@@ -38,14 +40,22 @@ export default function Navigation() {
           </li>
         </ul>
         <div>
-          <Link to="/register" className="nav-link">
-            Sign up
-          </Link>
+          {context.visibility ? null : (
+            <Link to="/register" className="nav-link">
+              Sign up
+            </Link>
+          )}
         </div>
         <div>
-          <Link to="/log-in" className="nav-link">
-            Log in
-          </Link>
+          {context.visibility ? (
+            <Link to="/log-out" className="nav-link">
+              Log out
+            </Link>
+          ) : (
+            <Link to="/log-in" className="nav-link">
+              Log in
+            </Link>
+          )}
         </div>
       </div>
     </nav>
