@@ -53,12 +53,10 @@ export default function Login(props) {
             className="btn btn-success btn-lg"
             onSubmit={(e) => {
               e.preventDefault();
-              props.users.map(
-                (user) =>
-                  console.log(user.name === data.name && user.pwd === data.pwd)
-                // user.name === data.name && user.pwd === data.pwd
-                //   ? props.setIsLogged(true)
-                //   : null
+              props.users.map((user) =>
+                user.name === data.name && user.pwd === data.pwd
+                  ? props.setIsLogged(true)
+                  : null
               );
             }}
           >
