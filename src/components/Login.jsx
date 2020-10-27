@@ -3,8 +3,6 @@ import React, { useState } from "react";
 export default function Login(props) {
   const [data, setData] = useState({});
 
-  console.log(props.users, props.setIsLogged(true));
-
   return (
     <div className="container">
       <h2 className="display-4 text-info py-3 text-left">Login</h2>
@@ -51,13 +49,18 @@ export default function Login(props) {
           <button
             type="submit"
             className="btn btn-success btn-lg"
-            onSubmit={(e) => {
+            onClick={(e) => {
               e.preventDefault();
-              props.users.map((user) =>
-                user.name === data.name && user.pwd === data.pwd
-                  ? props.setIsLogged(true)
-                  : null
-              );
+              console.log(data.mail, data.pwd);
+              props.users.map((user) => {
+                console.log(user.mail, user.pwd);
+                if (user.mail === data.mail && user.pwd === data.pwd) {
+                  console.log("condition is true");
+                  props.setIsLogged(true);
+                  props.setLoggedUser(user.name);
+                }
+                return "";
+              });
             }}
           >
             Submit

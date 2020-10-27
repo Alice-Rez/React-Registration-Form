@@ -23,7 +23,7 @@ export default function Main() {
   const [isLogged, setIsLogged] = useState(false);
   const [loggedUser, setLoggedUser] = useState("");
   return (
-    <loggContext.Provider value={{ visibility: isLogged }}>
+    <loggContext.Provider value={{ visibility: isLogged, user: loggedUser }}>
       <Router>
         <Navigation />
         <Switch>
@@ -40,7 +40,11 @@ export default function Main() {
             <Profile />
           </Route>
           <Route path="/log-in">
-            <Login setIsLogged={setIsLogged} users={users} />
+            <Login
+              setIsLogged={setIsLogged}
+              users={users}
+              setLoggedUser={setLoggedUser}
+            />
           </Route>
           <Route path="/products">
             <Products />
