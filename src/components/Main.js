@@ -4,6 +4,7 @@ import { loggContext } from "./context";
 import Home from "./Home";
 import Login from "./Login";
 import Logout from "./Logout";
+import Message from "./Message";
 import Navigation from "./Navigation";
 import Products from "./Products";
 import Profile from "./Profile";
@@ -58,7 +59,7 @@ export default function Main() {
             )}
           </Route>
           <Route path="/log-out">
-            {isLogged ? <Logout setIsLogged={setIsLogged} /> : null}
+            {isLogged ? <Logout setIsLogged={setIsLogged} /> : <Message />}
           </Route>
           <Route path="/products">
             <Products />

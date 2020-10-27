@@ -51,7 +51,6 @@ export default function Login(props) {
             className="btn btn-success btn-lg"
             onClick={(e) => {
               e.preventDefault();
-              console.log(data.mail, data.pwd);
               props.users.map((user) => {
                 console.log(user.mail, user.pwd);
                 if (user.mail === data.mail && user.pwd === data.pwd) {
