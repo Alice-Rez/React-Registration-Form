@@ -7,9 +7,11 @@ export default class Profile extends Component {
   render() {
     return (
       <React.Fragment>
-        {console.log(this.context)}
-        <div>The content is visible just for signed-in people</div>
-        {this.context.visibility ? <ProfileInfo /> : null}
+        {this.context.visibility ? (
+          <ProfileInfo />
+        ) : (
+          <div>The content is visible just for signed-in people</div>
+        )}
       </React.Fragment>
     );
   }
