@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { createContext } from "react";
+import { loggContext } from "./context";
 import ProfileInfo from "./ProfileInfo";
 
 export default class Profile extends Component {
-  static contextType = createContext;
+  static contextType = loggContext;
   render() {
     return (
       <React.Fragment>
+        {console.log(this.context)}
         <div>The content is visible just for signed-in people</div>
-        {this.context ? <ProfileInfo /> : null}
+        {this.context.visibility ? <ProfileInfo /> : null}
       </React.Fragment>
     );
   }

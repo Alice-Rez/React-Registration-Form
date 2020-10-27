@@ -1,5 +1,6 @@
-import React, { useState, createContext } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { loggContext } from "./context";
 import Home from "./Home";
 import Login from "./Login";
 import Navigation from "./Navigation";
@@ -7,8 +8,6 @@ import Products from "./Products";
 import Profile from "./Profile";
 import RegisterFunction from "./RegisterFunction";
 import Table from "./Table";
-
-const loggContext = createContext();
 
 export default function Main() {
   const [users, setUsers] = useState([
@@ -22,8 +21,9 @@ export default function Main() {
     { name: "Ola", mail: "caaaats@catmom.com", date: "1986", pwd: "cat3" },
   ]);
   const [isLogged, setIsLogged] = useState(false);
+  const [loggedUser, setLoggedUser] = useState("");
   return (
-    <loggContext.Provider value={isLogged}>
+    <loggContext.Provider value={{ visibility: isLogged }}>
       <Router>
         <Navigation />
         <Switch>
