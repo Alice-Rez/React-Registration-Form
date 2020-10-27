@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { loggContext } from "./context";
 import Home from "./Home";
 import Login from "./Login";
+import Logout from "./Logout";
 import Navigation from "./Navigation";
 import Products from "./Products";
 import Profile from "./Profile";
 import RegisterFunction from "./RegisterFunction";
 import Table from "./Table";
+import Welcome from "./Welcome";
 
 export default function Main() {
   const [users, setUsers] = useState([
@@ -23,7 +25,12 @@ export default function Main() {
   const [isLogged, setIsLogged] = useState(false);
   const [loggedUser, setLoggedUser] = useState("");
   return (
-    <loggContext.Provider value={{ visibility: isLogged, user: loggedUser }}>
+    <loggContext.Provider
+      value={{
+        visibility: isLogged,
+        user: loggedUser,
+      }}
+    >
       <Router>
         <Navigation />
         <Switch>
@@ -40,11 +47,18 @@ export default function Main() {
             <Profile />
           </Route>
           <Route path="/log-in">
-            <Login
-              setIsLogged={setIsLogged}
-              users={users}
-              setLoggedUser={setLoggedUser}
-            />
+            {isLogged ? (
+              <Welcome />
+            ) : (
+              <Login
+                setIsLogged={setIsLogged}
+                users={users}
+                setLoggedUser={setLoggedUser}
+              />
+            )}
+          </Route>
+          <Route path="/log-out">
+            {isLogged ? <Logout setIsLogged={setIsLogged} /> : null}
           </Route>
           <Route path="/products">
             <Products />
