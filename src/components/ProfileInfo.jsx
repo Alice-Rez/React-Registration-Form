@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import { loggContext } from "./context";
 
 export default function ProfileInfo() {
-  return (
-    <div className="alert-success">
-      Here are specific profile info - if yous ee it, you are logged-in
-    </div>
-  );
+  const context = useContext(loggContext);
+  return <div className="alert-success">Welcome {context.user}</div>;
 }
