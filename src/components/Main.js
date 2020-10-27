@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { loggContext } from "./context";
 import Home from "./Home";
 import Login from "./Login";
 import Logout from "./Logout";
-import Message from "./Message";
 import Navigation from "./Navigation";
 import Products from "./Products";
 import Profile from "./Profile";
 import RegisterFunction from "./RegisterFunction";
 import Table from "./Table";
-import Welcome from "./Welcome";
 
 export default function Main() {
   const [users, setUsers] = useState([
@@ -49,7 +52,7 @@ export default function Main() {
           </Route>
           <Route path="/log-in">
             {isLogged ? (
-              <Welcome />
+              <Redirect to="/profile" />
             ) : (
               <Login
                 setIsLogged={setIsLogged}
@@ -59,7 +62,11 @@ export default function Main() {
             )}
           </Route>
           <Route path="/log-out">
-            {isLogged ? <Logout setIsLogged={setIsLogged} /> : <Message />}
+            {isLogged ? (
+              <Logout setIsLogged={setIsLogged} />
+            ) : (
+              <Redirect to="/log-in" />
+            )}
           </Route>
           <Route path="/products">
             <Products />
