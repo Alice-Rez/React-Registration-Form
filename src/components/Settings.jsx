@@ -21,7 +21,7 @@ export default function Settings() {
     setSuccess(false);
     console.log("request send", data);
     Axios({
-      method: "POST",
+      method: "PUT",
       url: "http://localhost:3500/users/update",
       data: data,
     })
