@@ -38,6 +38,13 @@ export default function Navigation() {
               Profile
             </Link>
           </li>
+          {context.visibility ? (
+            <li className="nav-item">
+              <Link to="/update" className="nav-link">
+                Settings
+              </Link>
+            </li>
+          ) : null}
         </ul>
         <div>
           {context.visibility ? null : (

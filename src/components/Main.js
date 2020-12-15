@@ -13,6 +13,7 @@ import Navigation from "./Navigation";
 import Products from "./Products";
 import Profile from "./Profile";
 import RegisterFunction from "./RegisterFunction";
+import Settings from "./Settings";
 import Table from "./Table";
 
 export default function Main() {
@@ -49,6 +50,9 @@ export default function Main() {
           </Route>
           <Route path="/profile">
             <Profile />
+          </Route>
+          <Route path="/update">
+            <Settings />
           </Route>
           <Route path="/log-in">
             {isLogged ? (
