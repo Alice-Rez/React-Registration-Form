@@ -20,6 +20,7 @@ export default function Login(props) {
               if (res.data.logged) {
                 props.setIsLogged(true);
                 props.setLoggedUser(res.data.uname);
+                props.setUserId(res.data.email);
               }
             })
             .catch((err) => console.log(err));

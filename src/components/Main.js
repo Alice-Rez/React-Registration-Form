@@ -29,11 +29,13 @@ export default function Main() {
   ]);
   const [isLogged, setIsLogged] = useState(false);
   const [loggedUser, setLoggedUser] = useState("");
+  const [userID, setUserId] = useState();
   return (
     <loggContext.Provider
       value={{
         visibility: isLogged,
         user: loggedUser,
+        userID: userID,
       }}
     >
       <Router>
@@ -52,7 +54,7 @@ export default function Main() {
             <Profile />
           </Route>
           <Route path="/update">
-            <Settings />
+            {isLogged ? <Settings /> : <Redirect to="/log-in" />}
           </Route>
           <Route path="/log-in">
             {isLogged ? (
@@ -62,6 +64,7 @@ export default function Main() {
                 setIsLogged={setIsLogged}
                 users={users}
                 setLoggedUser={setLoggedUser}
+                setUserId={setUserId}
               />
             )}
           </Route>

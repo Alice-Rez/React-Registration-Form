@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
+import { loggContext } from "./context";
 
 export default function Settings() {
-  const [data, setData] = useState({});
+  const { userID } = useContext(loggContext);
+
+  const [data, setData] = useState({ userID });
 
   return (
     <div className="container">
