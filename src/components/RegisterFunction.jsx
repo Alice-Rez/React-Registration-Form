@@ -3,23 +3,43 @@ import React, { useState } from "react";
 
 export default function RegisterFunction(props) {
   const [data, setData] = useState({});
-  return (
-    <form
-      className="container"
-      onSubmit={(e) => {
-        e.preventDefault();
-        Axios({
-          method: "POST",
-          url: "http://localhost:3500/users",
-          data: data,
-        })
-          .then((res) => {
-            console.log("request send", data);
+  let [success, setSuccess] = useState(false);
+  const [warning, setWarning] = useState(false);
+
+  const getValue = (e) => {
+    setSuccess(false);
+    setWarning(false);
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    Axios({
+      method: "POST",
+      url: "http://localhost:3500/users/find",
+      data: data,
+    })
+      .then((res) => {
+        if (res.data) {
+          setWarning(true);
+        } else {
+          Axios({
+            method: "POST",
+            url: "http://localhost:3500/users",
+            data: data,
           })
-          .catch((err) => console.log(err));
-        e.target.reset();
-      }}
-    >
+            .then((res) => {
+              setSuccess(true);
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+    e.target.reset();
+  };
+
+  return (
+    <form className="container" onSubmit={submit}>
       <h2 className="display-4 text-info py-3 text-left">Registration</h2>
       <div className="form-group">
         <label htmlFor="name">Full Name</label>
@@ -29,9 +49,7 @@ export default function RegisterFunction(props) {
           id="name"
           required
           className="form-control"
-          onInput={(e) => {
-            setData({ ...data, [e.target.name]: e.target.value });
-          }}
+          onInput={getValue}
         />
       </div>
       <div className="form-group">
@@ -42,9 +60,7 @@ export default function RegisterFunction(props) {
           id="mail"
           required
           className="form-control"
-          onInput={(e) => {
-            setData({ ...data, [e.target.name]: e.target.value });
-          }}
+          onInput={getValue}
         />
       </div>
       <div className="form-group">
@@ -55,22 +71,18 @@ export default function RegisterFunction(props) {
           id="date"
           required
           className="form-control"
-          onInput={(e) => {
-            setData({ ...data, [e.target.name]: e.target.value });
-          }}
+          onInput={getValue}
         />
       </div>
       <div className="form-group">
         <label htmlFor="pwd">Password</label>
         <input
-          type="text"
+          type="password"
           name="password"
           id="pwd"
           required
           className="form-control"
-          onInput={(e) => {
-            setData({ ...data, [e.target.name]: e.target.value });
-          }}
+          onInput={getValue}
         />
       </div>
       <div className="text-right">
@@ -78,6 +90,16 @@ export default function RegisterFunction(props) {
           Register
         </button>
       </div>
+      {warning ? (
+        <div className="alert-danger m-3 p-3">
+          User with this e-mail already exists, please log-in
+        </div>
+      ) : null}
+      {success ? (
+        <div className="alert-success m-3 p-3">
+          You were successfully registered. Please proceed with log-in.
+        </div>
+      ) : null}
     </form>
   );
 }
