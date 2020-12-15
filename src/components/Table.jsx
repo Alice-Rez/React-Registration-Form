@@ -6,18 +6,18 @@ export default function Table(props) {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Birth Date</th>
             <th scope="col">E-mail</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Full name</th>
           </tr>
         </thead>
         <tbody>
-          {props.users.map((item) => {
+          {props.users.map((item, index) => {
             return (
-              <tr>
-                <td>{item.name}</td>
-                <td>{item.mail}</td>
-                <td>{item.date}</td>
+              <tr key={index}>
+                <td>{item.email}</td>
+                <td>{item.username || item.uname}</td>
+                <td>{item.fullname || item.fullName}</td>
               </tr>
             );
           })}

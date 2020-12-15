@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,19 +18,23 @@ import Settings from "./Settings";
 import Table from "./Table";
 
 export default function Main() {
-  const [users, setUsers] = useState([
-    { name: "Jane", mail: "jane@example.com", date: "1.1.2000", pwd: "pwd" },
-    {
-      name: "Fahim",
-      mail: "best.teacher@gmail.com",
-      date: "1985",
-      pwd: "fahim",
-    },
-    { name: "Ola", mail: "caaaats@catmom.com", date: "1986", pwd: "cat3" },
-  ]);
+  const [users, setUsers] = useState([]);
   const [isLogged, setIsLogged] = useState(false);
   const [loggedUser, setLoggedUser] = useState("");
   const [userID, setUserId] = useState();
+
+  useEffect(() => {
+    Axios({
+      method: "GET",
+      url: "http://localhost:3500/users/all",
+    })
+      .then((res) => {
+        console.log(res.data);
+        setUsers(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <loggContext.Provider
       value={{
@@ -48,7 +53,7 @@ export default function Main() {
             <Table users={users} />
           </Route>
           <Route path="/register">
-            <RegisterFunction users={users} setUsers={setUsers} />
+            <RegisterFunction />
           </Route>
           <Route path="/profile">
             <Profile />
@@ -62,7 +67,6 @@ export default function Main() {
             ) : (
               <Login
                 setIsLogged={setIsLogged}
-                users={users}
                 setLoggedUser={setLoggedUser}
                 setUserId={setUserId}
               />

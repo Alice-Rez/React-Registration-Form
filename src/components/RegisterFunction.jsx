@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState } from "react";
 
-export default function RegisterFunction(props) {
+export default function RegisterFunction() {
   const [data, setData] = useState({});
   let [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
@@ -25,7 +25,7 @@ export default function RegisterFunction(props) {
         } else {
           Axios({
             method: "POST",
-            url: "http://localhost:3500/users",
+            url: "http://localhost:3500/users/register",
             data: data,
           })
             .then((res) => {
