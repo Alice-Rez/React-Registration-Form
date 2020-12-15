@@ -5,31 +5,36 @@ export default function Login(props) {
   const [loginData, setData] = useState({});
   const [warning, setWarning] = useState(false);
 
+  const getData = (e) => {
+    setWarning(false);
+    setData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    console.log("request send", loginData);
+
+    Axios({
+      method: "POST",
+      url: "http://localhost:3500/users/login",
+      data: loginData,
+    })
+      .then((res) => {
+        if (res.data.logged) {
+          props.setIsLogged(true);
+          props.setLoggedUser(res.data.uname);
+          props.setUserId(res.data.email);
+        } else {
+          setWarning(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="container">
       <h2 className="display-4 text-info py-3 text-left">Login</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log("request send", loginData);
-
-          Axios({
-            method: "POST",
-            url: "http://localhost:3500/users/login",
-            data: loginData,
-          })
-            .then((res) => {
-              if (res.data.logged) {
-                props.setIsLogged(true);
-                props.setLoggedUser(res.data.uname);
-                props.setUserId(res.data.email);
-              } else {
-                setWarning(true);
-              }
-            })
-            .catch((err) => console.log(err));
-        }}
-      >
+      <form onSubmit={submit}>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Email address</label>
           <input
@@ -38,10 +43,7 @@ export default function Login(props) {
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
-            onInput={(e) => {
-              setWarning(false);
-              setData({ ...loginData, [e.target.name]: e.target.value });
-            }}
+            onInput={getData}
           />
           <small id="emailHelp" className="form-text text-muted">
             We'll never share your email with anyone else.
@@ -54,10 +56,7 @@ export default function Login(props) {
             name="password"
             className="form-control"
             id="exampleInputPassword1"
-            onInput={(e) => {
-              setWarning(false);
-              setData({ ...loginData, [e.target.name]: e.target.value });
-            }}
+            onInput={getData}
           />
         </div>
         <div className="form-group form-check">

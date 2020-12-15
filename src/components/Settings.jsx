@@ -9,32 +9,38 @@ export default function Settings() {
   const [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
 
+  const getValue = (e) => {
+    setSuccess(false);
+    setWarning(false);
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    setSuccess(false);
+    setSuccess(false);
+    console.log("request send", data);
+    Axios({
+      method: "POST",
+      url: "http://localhost:3500/users/update",
+      data: data,
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data.modifiedCount > 0) {
+          setSuccess(true);
+          // e.target.reset();
+        } else {
+          setWarning(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="container">
       <h2 className="display-4 text-info py-3 text-left">Change Password</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setSuccess(false);
-          setSuccess(false);
-          console.log("request send", data);
-          Axios({
-            method: "POST",
-            url: "http://localhost:3500/users/update",
-            data: data,
-          })
-            .then((res) => {
-              console.log(res);
-              if (res.data.modifiedCount > 0) {
-                setSuccess(true);
-                // e.target.reset();
-              } else {
-                setWarning(true);
-              }
-            })
-            .catch((err) => console.log(err));
-        }}
-      >
+      <form onSubmit={submit}>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Current Password</label>
           <input
@@ -43,9 +49,7 @@ export default function Settings() {
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
-            onInput={(e) => {
-              setData({ ...data, [e.target.name]: e.target.value });
-            }}
+            onInput={getValue}
           />
         </div>
         <div className="form-group">
@@ -55,9 +59,7 @@ export default function Settings() {
             name="newPassword"
             className="form-control"
             id="exampleInputPassword1"
-            onInput={(e) => {
-              setData({ ...data, [e.target.name]: e.target.value });
-            }}
+            onInput={getValue}
           />
         </div>
         <div className="text-right">
