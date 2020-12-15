@@ -6,6 +6,8 @@ export default function Settings() {
   const { userID } = useContext(loggContext);
 
   const [data, setData] = useState({ userID });
+  const [success, setSuccess] = useState(false);
+  const [warning, setWarning] = useState(false);
 
   return (
     <div className="container">
@@ -13,6 +15,8 @@ export default function Settings() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          setSuccess(false);
+          setSuccess(false);
           console.log("request send", data);
           Axios({
             method: "POST",
@@ -21,6 +25,12 @@ export default function Settings() {
           })
             .then((res) => {
               console.log(res);
+              if (res.data.modifiedCount > 0) {
+                setSuccess(true);
+                // e.target.reset();
+              } else {
+                setWarning(true);
+              }
             })
             .catch((err) => console.log(err));
         }}
@@ -56,6 +66,15 @@ export default function Settings() {
           </button>
         </div>
       </form>
+      {success ? (
+        <div className="alert-success m-3 p-3">Your password was changed</div>
+      ) : null}
+      {warning ? (
+        <div className="alert-danger m-3 p-3">
+          Your password could not be changed, please make sure you are using
+          correct current password
+        </div>
+      ) : null}
     </div>
   );
 }

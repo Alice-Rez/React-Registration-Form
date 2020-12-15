@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 export default function Login(props) {
   const [loginData, setData] = useState({});
+  const [warning, setWarning] = useState(false);
 
   return (
     <div className="container">
@@ -11,6 +12,7 @@ export default function Login(props) {
         onSubmit={(e) => {
           e.preventDefault();
           console.log("request send", loginData);
+
           Axios({
             method: "POST",
             url: "http://localhost:3500/users/login",
@@ -21,6 +23,8 @@ export default function Login(props) {
                 props.setIsLogged(true);
                 props.setLoggedUser(res.data.uname);
                 props.setUserId(res.data.email);
+              } else {
+                setWarning(true);
               }
             })
             .catch((err) => console.log(err));
@@ -35,6 +39,7 @@ export default function Login(props) {
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             onInput={(e) => {
+              setWarning(false);
               setData({ ...loginData, [e.target.name]: e.target.value });
             }}
           />
@@ -50,6 +55,7 @@ export default function Login(props) {
             className="form-control"
             id="exampleInputPassword1"
             onInput={(e) => {
+              setWarning(false);
               setData({ ...loginData, [e.target.name]: e.target.value });
             }}
           />
@@ -70,6 +76,12 @@ export default function Login(props) {
           </button>
         </div>
       </form>
+      {warning ? (
+        <div className="alert-danger m-3 p-3">
+          {" "}
+          Combination of the e-mail and password is not correct
+        </div>
+      ) : null}
     </div>
   );
 }
