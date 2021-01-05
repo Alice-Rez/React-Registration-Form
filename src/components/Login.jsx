@@ -20,6 +20,7 @@ export default function Login(props) {
       data: loginData,
     })
       .then((res) => {
+        console.log(res);
         if (res.data.logged) {
           props.setIsLogged(true);
           props.setLoggedUser(res.data.uname);

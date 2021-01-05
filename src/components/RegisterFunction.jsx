@@ -20,8 +20,9 @@ export default function RegisterFunction() {
       data: data,
     })
       .then((res) => {
-        if (res.data) {
+        if (res.data.length) {
           setWarning(true);
+          console.log(res);
         } else {
           Axios({
             method: "POST",
@@ -29,6 +30,7 @@ export default function RegisterFunction() {
             data: data,
           })
             .then((res) => {
+              console.log(res);
               setSuccess(true);
             })
             .catch((err) => console.log(err));
@@ -47,7 +49,6 @@ export default function RegisterFunction() {
           type="text"
           name="fullName"
           id="name"
-          required
           className="form-control"
           onInput={getValue}
         />
