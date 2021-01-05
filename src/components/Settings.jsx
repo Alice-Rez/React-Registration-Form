@@ -27,7 +27,7 @@ export default function Settings() {
     })
       .then((res) => {
         console.log(res);
-        if (res.data.modifiedCount > 0) {
+        if (res.data.nModified > 0) {
           setSuccess(true);
           // e.target.reset();
         } else {
