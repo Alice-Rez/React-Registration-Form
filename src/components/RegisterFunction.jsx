@@ -5,6 +5,7 @@ export default function RegisterFunction() {
   const [data, setData] = useState({});
   let [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
+  const [warningContent, setWarningContent] = useState("");
 
   const getValue = (e) => {
     setSuccess(false);
@@ -16,22 +17,17 @@ export default function RegisterFunction() {
     e.preventDefault();
     Axios({
       method: "POST",
-      url: "http://localhost:3500/users/find",
+      url: "http://localhost:3500/users/register",
       data: data,
     })
       .then((res) => {
-        if (res.data) {
+        console.log(res);
+        if (res.data.code === 11000) {
+          setWarningContent(Object.keys(res.data.keyValue)[0]);
           setWarning(true);
         } else {
-          Axios({
-            method: "POST",
-            url: "http://localhost:3500/users/register",
-            data: data,
-          })
-            .then((res) => {
-              setSuccess(true);
-            })
-            .catch((err) => console.log(err));
+          console.log(res);
+          setSuccess(true);
         }
       })
       .catch((err) => console.log(err));
@@ -47,7 +43,6 @@ export default function RegisterFunction() {
           type="text"
           name="fullName"
           id="name"
-          required
           className="form-control"
           onInput={getValue}
         />
@@ -92,7 +87,7 @@ export default function RegisterFunction() {
       </div>
       {warning ? (
         <div className="alert-danger m-3 p-3">
-          User with this e-mail already exists, please log-in
+          User with this {warningContent} already exists, please log-in
         </div>
       ) : null}
       {success ? (
