@@ -17,7 +17,7 @@ export default function RegisterFunction() {
     e.preventDefault();
     Axios({
       method: "POST",
-      url: "http://localhost:3500/users/register",
+      url: "/users/register",
       data: data,
     })
       .then((res) => {

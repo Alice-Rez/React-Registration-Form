@@ -82,6 +82,9 @@ export default function Main() {
           <Route path="/products">
             <Products />
           </Route>
+          <Route path="*">
+            <Redirect to="/home" />
+          </Route>
         </Switch>
       </Router>
     </loggContext.Provider>
