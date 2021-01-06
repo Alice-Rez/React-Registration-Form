@@ -53,7 +53,7 @@ export default function Main() {
             <Table users={users} />
           </Route>
           <Route path="/register">
-            <RegisterFunction />
+            {isLogged ? <Redirect to="/profile" /> : <RegisterFunction />}
           </Route>
           <Route path="/profile">
             <Profile />
