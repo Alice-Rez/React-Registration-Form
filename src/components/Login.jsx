@@ -16,7 +16,7 @@ export default function Login(props) {
 
     Axios({
       method: "POST",
-      url: "http://localhost:3500/users/login",
+      url: "/users/login",
       data: loginData,
     })
       .then((res) => {

@@ -22,7 +22,7 @@ export default function Settings() {
     console.log("request send", data);
     Axios({
       method: "PUT",
-      url: "http://localhost:3500/users/update",
+      url: "/users/update",
       data: data,
     })
       .then((res) => {
