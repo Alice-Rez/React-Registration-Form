@@ -9,6 +9,7 @@ export default function Settings() {
 
   const [data, setData] = useState({ userID });
   const [success, setSuccess] = useState(false);
+  const [photoSuccess, setPhotoSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
 
   useEffect(() => {
@@ -74,6 +75,7 @@ export default function Settings() {
     })
       .then((res) => {
         console.log(res);
+        setPhotoSuccess(true);
       })
       .catch((err) => console.log(err));
   };
@@ -121,7 +123,10 @@ export default function Settings() {
       <h2 className="text-info py-3 text-left">Change profile photo</h2>
       <form encType="multipart/form-data" onSubmit={submitPhoto}>
         <div className="image-input">
-          <label htmlFor="upload-button" className="mb-3">
+          <label
+            htmlFor="upload-button"
+            className="mb-3 d-flex align-items-center"
+          >
             {image.preview ? (
               <img
                 src={image.preview}
@@ -129,16 +134,14 @@ export default function Settings() {
                 className="rounded-circle ml-3 profile-photo"
               />
             ) : (
-              <span className="ml-3 mb-4 d-flex align-items-center">
-                <span>
-                  <FaUserCircle className="display-2" />
-                </span>
-                <div className="ml-3">
-                  <h6>Upload photo</h6>
-                  <small>image shall be in square format</small>
-                </div>
+              <span>
+                <FaUserCircle className="display-2" />
               </span>
             )}
+            <div className="ml-3">
+              <h6>Upload photo</h6>
+              <small>image shall be in square format</small>
+            </div>
           </label>
 
           <input
@@ -155,6 +158,11 @@ export default function Settings() {
           </button>
         </div>
       </form>
+      {photoSuccess ? (
+        <div className="alert-success m-3 p-3">
+          Your profile photo was changed
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -6,6 +6,8 @@ Just a small full-stack exercise from DCI one year web developer course.
 
 Demo of the registration in the react app. Possibilities of register (e-mail has to be unique), login and changing of the password. Newly added possibility to upload profile photo.
 
+No final product - no special styling (just basic bootstrap), no cleanly ordered code, etc. just playground.
+
 Full stack with Express.js backend and MongoDB database, backend part is [MongoDB-Playground repository](https://github.com/Alice-Rez/MongoDB-Playground).
 
 Passwords are not correctly handled yet, so this exercise do not show correct way how to handle passwords!
