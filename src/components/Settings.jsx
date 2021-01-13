@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { loggContext } from "./context";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Settings() {
   const { userID } = useContext(loggContext);
+  const [image, setImage] = useState({ preview: "", raw: "" });
 
   const [data, setData] = useState({ userID });
   const [success, setSuccess] = useState(false);
@@ -13,6 +15,15 @@ export default function Settings() {
     setSuccess(false);
     setWarning(false);
     setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const getPhoto = (e) => {
+    if (e.target.files.length) {
+      setImage({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+    }
   };
 
   const submit = (e) => {
@@ -39,7 +50,7 @@ export default function Settings() {
 
   return (
     <div className="container">
-      <h2 className="display-4 text-info py-3 text-left">Change Password</h2>
+      <h2 className="text-info py-3 text-left">Change Password</h2>
       <form onSubmit={submit}>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Current Password</label>
@@ -77,6 +88,36 @@ export default function Settings() {
           correct current password
         </div>
       ) : null}
+      <h2 className="text-info py-3 text-left">Change profile photo</h2>
+      <div className="image-input">
+        <label htmlFor="upload-button" className="mb-3">
+          {image.preview ? (
+            <img
+              src={image.preview}
+              alt="profile-pic"
+              className="rounded-circle ml-3 profile-photo"
+            />
+          ) : (
+            <span className="ml-3 mb-4 d-flex align-items-center">
+              <span>
+                <FaUserCircle className="display-2" />
+              </span>
+              <div className="ml-3">
+                <h6>Upload photo</h6>
+                <small>image shall be in square format</small>
+              </div>
+            </span>
+          )}
+        </label>
+
+        <input
+          type="file"
+          name="userImg"
+          className="d-none"
+          id="upload-button"
+          onChange={getPhoto}
+        />
+      </div>
     </div>
   );
 }
