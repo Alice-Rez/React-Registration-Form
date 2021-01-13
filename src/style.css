@@ -11,3 +11,13 @@ body {
   text-align: center;
   color: tomato;
 }
+
+.profile-photo {
+  width: "100px";
+  height: "100px";
+  box-shadow: "3px 3px 6px 2px #173F5F";
+}
+
+.image-input {
+  min-height: 100px;
+}

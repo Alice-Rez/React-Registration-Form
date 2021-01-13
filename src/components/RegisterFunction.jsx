@@ -1,8 +1,10 @@
 import Axios from "axios";
 import React, { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function RegisterFunction() {
   const [data, setData] = useState({});
+  const [image, setImage] = useState({ preview: "", raw: "" });
   let [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
   const [warningContent, setWarningContent] = useState("");
@@ -35,8 +37,39 @@ export default function RegisterFunction() {
   };
 
   return (
-    <form className="container" onSubmit={submit}>
+    <form className="container" onSubmit={submit} encType="multipart/form-data">
       <h2 className="display-4 text-info py-3 text-left">Registration</h2>
+      <div className="image-input">
+        <label htmlFor="upload-button" className="mb-3">
+          {/* image preview */}
+          {image.preview ? (
+            <img
+              src={image.preview}
+              alt="profile-pic"
+              className="rounded-circle ml-3 profile-photo"
+            />
+          ) : (
+            <span className="ml-3 mb-4 d-flex align-items-center">
+              <span>
+                <FaUserCircle className="display-2" />
+              </span>
+              <div className="ml-3">
+                <h6>Upload photo</h6>
+                <small>image shall be in square format</small>
+              </div>
+            </span>
+          )}
+        </label>
+
+        <input
+          type="file"
+          name="userImg"
+          className="d-none"
+          id="upload-button"
+          // onChange={fileHandler}
+        />
+      </div>
+
       <div className="form-group">
         <label htmlFor="name">Full Name</label>
         <input
