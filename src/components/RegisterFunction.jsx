@@ -15,6 +15,16 @@ export default function RegisterFunction() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  const getPhoto = (e) => {
+    if (e.target.files.length) {
+      setImage({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+      console.log(image.raw.name);
+    }
+  };
+
   const submit = (e) => {
     e.preventDefault();
     Axios({
@@ -41,7 +51,6 @@ export default function RegisterFunction() {
       <h2 className="display-4 text-info py-3 text-left">Registration</h2>
       <div className="image-input">
         <label htmlFor="upload-button" className="mb-3">
-          {/* image preview */}
           {image.preview ? (
             <img
               src={image.preview}
@@ -66,7 +75,7 @@ export default function RegisterFunction() {
           name="userImg"
           className="d-none"
           id="upload-button"
-          // onChange={fileHandler}
+          onChange={getPhoto}
         />
       </div>
 
