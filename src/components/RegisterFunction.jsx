@@ -21,16 +21,23 @@ export default function RegisterFunction() {
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
-      console.log(image.raw.name);
     }
   };
 
   const submit = (e) => {
     e.preventDefault();
+
+    let formData = new FormData();
+    formData.append("file", image.raw);
+    formData.append("fullName", data.fullName);
+    formData.append("email", data.email);
+    formData.append("uname", data.uname);
+    formData.append("password", data.password);
+
     Axios({
       method: "POST",
       url: "/users/register",
-      data: data,
+      data: formData,
     })
       .then((res) => {
         console.log(res);
@@ -40,6 +47,7 @@ export default function RegisterFunction() {
         } else {
           console.log(res);
           setSuccess(true);
+          setImage({ preview: "", raw: "" });
         }
       })
       .catch((err) => console.log(err));
