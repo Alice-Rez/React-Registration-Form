@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Axios from "axios";
 import { loggContext } from "./context";
 import { FaUserCircle } from "react-icons/fa";
@@ -10,6 +10,18 @@ export default function Settings() {
   const [data, setData] = useState({ userID });
   const [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
+
+  useEffect(() => {
+    Axios({
+      method: "GET",
+      url: `users/${userID}`,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setImage({ ...image, preview: res.data[0].profileImage });
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const getValue = (e) => {
     setSuccess(false);
@@ -33,7 +45,7 @@ export default function Settings() {
     console.log("request send", data);
     Axios({
       method: "PUT",
-      url: "/users/update",
+      url: "/users/updatePWD",
       data: data,
     })
       .then((res) => {
@@ -44,6 +56,24 @@ export default function Settings() {
         } else {
           setWarning(true);
         }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const submitPhoto = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData();
+    formData.append("file", image.raw);
+    formData.append("userID", userID);
+
+    Axios({
+      method: "PUT",
+      url: "/users/updatePhoto",
+      data: formData,
+    })
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => console.log(err));
   };
@@ -89,35 +119,42 @@ export default function Settings() {
         </div>
       ) : null}
       <h2 className="text-info py-3 text-left">Change profile photo</h2>
-      <div className="image-input">
-        <label htmlFor="upload-button" className="mb-3">
-          {image.preview ? (
-            <img
-              src={image.preview}
-              alt="profile-pic"
-              className="rounded-circle ml-3 profile-photo"
-            />
-          ) : (
-            <span className="ml-3 mb-4 d-flex align-items-center">
-              <span>
-                <FaUserCircle className="display-2" />
+      <form encType="multipart/form-data" onSubmit={submitPhoto}>
+        <div className="image-input">
+          <label htmlFor="upload-button" className="mb-3">
+            {image.preview ? (
+              <img
+                src={image.preview}
+                alt="profile-pic"
+                className="rounded-circle ml-3 profile-photo"
+              />
+            ) : (
+              <span className="ml-3 mb-4 d-flex align-items-center">
+                <span>
+                  <FaUserCircle className="display-2" />
+                </span>
+                <div className="ml-3">
+                  <h6>Upload photo</h6>
+                  <small>image shall be in square format</small>
+                </div>
               </span>
-              <div className="ml-3">
-                <h6>Upload photo</h6>
-                <small>image shall be in square format</small>
-              </div>
-            </span>
-          )}
-        </label>
+            )}
+          </label>
 
-        <input
-          type="file"
-          name="userImg"
-          className="d-none"
-          id="upload-button"
-          onChange={getPhoto}
-        />
-      </div>
+          <input
+            type="file"
+            name="userImg"
+            className="d-none"
+            id="upload-button"
+            onChange={getPhoto}
+          />
+        </div>
+        <div className="text-right">
+          <button type="submit" className="btn btn-success btn-lg">
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
