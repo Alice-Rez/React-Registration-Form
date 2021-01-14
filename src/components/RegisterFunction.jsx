@@ -1,10 +1,11 @@
 import Axios from "axios";
 import React, { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaMagento, FaUserCircle } from "react-icons/fa";
 
 export default function RegisterFunction() {
   const [data, setData] = useState({});
   const [image, setImage] = useState({ preview: "", raw: "" });
+  const [msg, setMsg] = useState({});
   let [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
   const [warningContent, setWarningContent] = useState("");
@@ -27,6 +28,8 @@ export default function RegisterFunction() {
   const submit = (e) => {
     e.preventDefault();
 
+    setMsg({});
+
     let formData = new FormData();
     formData.append("file", image.raw);
     formData.append("fullName", data.fullName);
@@ -41,7 +44,18 @@ export default function RegisterFunction() {
     })
       .then((res) => {
         console.log(res);
-        if (res.data.code === 11000) {
+        if (res.data.msg) {
+          console.log(res.data.msg);
+
+          let msgChanged = res.data.msg.reduce((acc, item) => {
+            acc[item.param] = true;
+            return acc;
+          }, {});
+
+          console.log(msgChanged);
+
+          setMsg(msgChanged);
+        } else if (res.data.code === 11000) {
           setWarningContent(Object.keys(res.data.keyValue)[0]);
           setWarning(true);
         } else {
@@ -51,7 +65,7 @@ export default function RegisterFunction() {
         }
       })
       .catch((err) => console.log(err));
-    e.target.reset();
+    // e.target.reset();
   };
 
   return (
@@ -96,17 +110,27 @@ export default function RegisterFunction() {
           className="form-control"
           onInput={getValue}
         />
+        {msg.fullName ? (
+          <small className="text-danger mt-1">
+            Your full name shall contain just letters
+          </small>
+        ) : null}
       </div>
       <div className="form-group">
         <label htmlFor="mail">E-mail</label>
         <input
-          type="email"
+          type="text"
           name="email"
           id="mail"
-          required
+          // required
           className="form-control"
           onInput={getValue}
         />
+        {msg.email ? (
+          <small className="text-danger mt-1">
+            E-mail do not correspond to typical rules for email
+          </small>
+        ) : null}
       </div>
       <div className="form-group">
         <label htmlFor="date">User name</label>
@@ -118,6 +142,11 @@ export default function RegisterFunction() {
           className="form-control"
           onInput={getValue}
         />
+        {msg.uname ? (
+          <small className="text-danger mt-1">
+            Please use just letters and numbers in your username
+          </small>
+        ) : null}
       </div>
       <div className="form-group">
         <label htmlFor="pwd">Password</label>
@@ -129,6 +158,11 @@ export default function RegisterFunction() {
           className="form-control"
           onInput={getValue}
         />
+        {msg.password ? (
+          <small className="text-danger mt-1">
+            Your password is too short, you need at least 10 characters
+          </small>
+        ) : null}
       </div>
       <div className="text-right">
         <button type="submit" className="btn btn-success btn-lg">
