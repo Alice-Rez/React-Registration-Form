@@ -4,7 +4,15 @@
 
 Just a small full-stack exercise from DCI one year web developer course.
 
-Demo of the registration in the react app. Possibilities of register (e-mail has to be unique), login and changing of the password. Newly added possibility to upload profile photo.
+Demo of the registration in the react app:
+
+- Possibilities of register (e-mail has to be unique) and login
+
+- logged user can change password
+
+- logged user can also change profile photo (usage of multer package)
+
+- basic verification by registration using express-validator
 
 No final product - no special styling (just basic bootstrap), no cleanly ordered code, etc. just playground.
 
