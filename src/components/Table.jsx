@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 
-export default function Table(props) {
+export default function Table() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    Axios({
+      method: "GET",
+      url: "http://localhost:3500/users/all",
+    })
+      .then((res) => {
+        console.log(res.data);
+        setUsers(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <main className="container d-flex justify-content-center py-5">
       <table className="table table-striped">
@@ -13,7 +28,7 @@ export default function Table(props) {
           </tr>
         </thead>
         <tbody>
-          {props.users.map((item, index) => {
+          {users.map((item, index) => {
             return (
               <tr key={index}>
                 <td>{item.email}</td>

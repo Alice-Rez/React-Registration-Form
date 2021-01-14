@@ -1,5 +1,4 @@
-import Axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,22 +17,9 @@ import Settings from "./Settings";
 import Table from "./Table";
 
 export default function Main() {
-  const [users, setUsers] = useState([]);
   const [isLogged, setIsLogged] = useState(false);
   const [loggedUser, setLoggedUser] = useState("");
   const [userID, setUserId] = useState();
-
-  useEffect(() => {
-    Axios({
-      method: "GET",
-      url: "http://localhost:3500/users/all",
-    })
-      .then((res) => {
-        console.log(res.data);
-        setUsers(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <loggContext.Provider
@@ -50,7 +36,7 @@ export default function Main() {
             <Home />
           </Route>
           <Route path="/users">
-            <Table users={users} />
+            <Table />
           </Route>
           <Route path="/register">
             {isLogged ? <Redirect to="/profile" /> : <RegisterFunction />}
