@@ -1,8 +1,11 @@
 import Axios from "axios";
 import React, { useState } from "react";
 import { FaMagento, FaUserCircle } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 export default function RegisterFunction() {
+  const history = useHistory();
+
   const [data, setData] = useState({});
   const [image, setImage] = useState({ preview: "", raw: "" });
   const [msg, setMsg] = useState({});
@@ -45,27 +48,19 @@ export default function RegisterFunction() {
       .then((res) => {
         console.log(res);
         if (res.data.msg) {
-          console.log(res.data.msg);
-
           let msgChanged = res.data.msg.reduce((acc, item) => {
             acc[item.param] = true;
             return acc;
           }, {});
-
-          console.log(msgChanged);
-
           setMsg(msgChanged);
         } else if (res.data.code === 11000) {
           setWarningContent(Object.keys(res.data.keyValue)[0]);
           setWarning(true);
         } else {
-          console.log(res);
-          setSuccess(true);
-          setImage({ preview: "", raw: "" });
+          history.push("/log-in");
         }
       })
       .catch((err) => console.log(err));
-    // e.target.reset();
   };
 
   return (
