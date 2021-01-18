@@ -7,6 +7,7 @@ export default function Logout(props) {
     Axios({
       method: "GET",
       url: "/users/logout",
+      // withCredentials: true,
     })
       .then((res) => {
         console.log(res);

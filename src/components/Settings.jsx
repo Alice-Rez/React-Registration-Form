@@ -15,7 +15,7 @@ export default function Settings() {
   useEffect(() => {
     Axios({
       method: "GET",
-      url: `users/${userID}`,
+      url: `users/info/${userID}`,
     })
       .then((res) => {
         console.log(res);
