@@ -18,8 +18,12 @@ export default function Settings() {
       url: `users/${userID}`,
     })
       .then((res) => {
-        console.log(res.data);
-        setImage({ ...image, preview: res.data[0].profileImage });
+        console.log(res);
+        if (Array.isArray(res.data)) {
+          setImage({ ...image, preview: res.data[0].profileImage });
+        } else {
+          console.log("problem!");
+        }
       })
       .catch((err) => console.log(err));
   }, []);

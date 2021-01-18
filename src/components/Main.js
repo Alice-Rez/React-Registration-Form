@@ -44,9 +44,7 @@ export default function Main() {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route path="/update">
-            {isLogged ? <Settings /> : <Redirect to="/log-in" />}
-          </Route>
+          <Route path="/update">{isLogged ? <Settings /> : <Settings />}</Route>
           <Route path="/log-in">
             {isLogged ? (
               <Redirect to="/profile" />
