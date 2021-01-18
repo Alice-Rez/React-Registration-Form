@@ -7,11 +7,11 @@ export default function Logout(props) {
     Axios({
       method: "GET",
       url: "/users/logout",
-      // withCredentials: true,
     })
       .then((res) => {
         console.log(res);
         delete localStorage.userName;
+        // delete localStorage.isLogged;
         props.setIsLogged(res.data.logged);
       })
       .catch((err) => console.log(err));
