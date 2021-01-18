@@ -11,6 +11,7 @@ export default function Logout(props) {
     })
       .then((res) => {
         console.log(res);
+        delete localStorage.userName;
         props.setIsLogged(res.data.logged);
       })
       .catch((err) => console.log(err));

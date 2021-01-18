@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { loggContext } from "./context";
 
 export default function ProfileInfo() {
-  const context = useContext(loggContext);
+  const user = localStorage.getItem("userName");
   return (
     <div className="alert-success">
-      Welcome {context.user}, here are your profile information
+      Welcome {user}, here are your profile information
     </div>
   );
 }

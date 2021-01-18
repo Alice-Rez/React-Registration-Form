@@ -22,7 +22,7 @@ export default function Settings() {
         if (Array.isArray(res.data)) {
           setImage({ ...image, preview: res.data[0].profileImage });
         } else {
-          console.log("problem!");
+          console.log("you are not logged!");
         }
       })
       .catch((err) => console.log(err));
